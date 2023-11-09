@@ -1,13 +1,13 @@
-package com.microservice.eureka.server;
+package com.microservice.shopping.cart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MicroserviceEurekaServerApplication {
+public class MicroserviceShoppingCartApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MicroserviceEurekaServerApplication.class, args);
+		SpringApplication.run(MicroserviceShoppingCartApplication.class, args);
 	}
 
 }

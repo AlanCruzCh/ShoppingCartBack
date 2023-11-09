@@ -1,4 +1,4 @@
-package com.microservice.eureka.server;
+package com.microservice.shopping.cart;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(MicroserviceEurekaServerApplication.class);
+		return application.sources(MicroserviceShoppingCartApplication.class);
 	}
 
 }

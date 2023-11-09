@@ -1,10 +1,10 @@
-package com.microservice.eureka.server;
+package com.microservice.shopping.cart;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MicroserviceEurekaServerApplicationTests {
+class MicroserviceShoppingCartApplicationTests {
 
 	@Test
 	void contextLoads() {
