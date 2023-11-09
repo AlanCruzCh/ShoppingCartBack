@@ -1,5 +1,110 @@
 package com.microservice.shopping.cart.models.entitys;
 
-public class ArticulosEntity {
-    
+import java.sql.Blob;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+/*
+ * Entity ArticulosEntity
+ * 
+ * Contains all the information about the articles
+ * 
+ * @author Alan F. Cruz Chavez
+ * @version 1.0
+ */
+@Entity
+@Table(name ="articulos")
+public class ArticulosEntity{
+
+    // * *********************************************************************************************************
+	// * Defines the attributes
+	// * *********************************************************************************************************  
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_articulo", nullable = false )
+	private Integer idArticulo;
+
+	@NotEmpty
+	@Column(length = 1000, nullable = false)
+	private String description;
+
+	@NotNull
+	@Column(nullable = false)
+	private Float precio;
+
+	@NotNull
+	@Column(nullable = false)
+	private Integer cantidad;
+
+	@NotNull
+	@Column(nullable = false)
+	private Blob fotografia;
+
+	// * *********************************************************************************************************
+	// * Define the getters and setters methods
+	// * *********************************************************************************************************
+
+	public Integer getIdArticulo() {
+		return idArticulo;
+	}
+
+	public void setIdArticulo(Integer idArticulo) {
+		this.idArticulo = idArticulo;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(Float precio) {
+		this.precio = precio;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public Blob getFotografia() {
+		return fotografia;
+	}
+
+	public void setFotografia(Blob fotografia) {
+		this.fotografia = fotografia;
+	}
+
+	// * *********************************************************************************************************
+	// * Define the constructors
+	// * *********************************************************************************************************
+	
+	public ArticulosEntity() {
+	}
+
+	public ArticulosEntity(@NotEmpty String description, @NotNull Float precio, @NotNull Integer cantidad,
+			@NotNull Blob fotografia) {
+		this.description = description;
+		this.precio = precio;
+		this.cantidad = cantidad;
+		this.fotografia = fotografia;
+	}	
+
 }
