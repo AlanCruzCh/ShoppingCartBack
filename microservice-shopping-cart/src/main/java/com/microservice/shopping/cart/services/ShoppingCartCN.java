@@ -5,6 +5,7 @@ import java.util.List;
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
 import com.microservice.shopping.cart.models.dtoRecivers.CarritoCompraDTO;
 import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
+import com.microservice.shopping.cart.models.entitys.CarritoCompraEntity;
 
 public interface ShoppingCartCN {
     
@@ -14,9 +15,9 @@ public interface ShoppingCartCN {
      * *****************************************************************************
      */
 
-    public void saveArticle(ArticuloDTO dataJson);
+    public ArticulosEntity saveArticle(ArticuloDTO dataJson);
 
-    public void saveShoppingCart(CarritoCompraDTO dataJson);
+    public CarritoCompraEntity saveShoppingCart(CarritoCompraDTO dataJson);
 
     
     /*

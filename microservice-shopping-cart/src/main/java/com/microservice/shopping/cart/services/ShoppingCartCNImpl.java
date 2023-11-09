@@ -26,9 +26,9 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
 
     @Override
     @Transactional
-    public void saveArticle(ArticuloDTO dataJson) {
+    public ArticulosEntity saveArticle(ArticuloDTO dataJson) {
         try {
-            articuloDAO.save( new ArticulosEntity(
+            return articuloDAO.save( new ArticulosEntity(
                 dataJson.getDescription(), 
                 dataJson.getPrecio(), 
                 dataJson.getCantidad(), 
@@ -44,9 +44,9 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
 
     @Override
     @Transactional
-    public void saveShoppingCart(CarritoCompraDTO dataJson) {
+    public CarritoCompraEntity saveShoppingCart(CarritoCompraDTO dataJson) {
         try {
-            carritoCompraDAO.save( new CarritoCompraEntity(
+            return carritoCompraDAO.save( new CarritoCompraEntity(
                 dataJson.getCantidad(),
                 dataJson.getIdArticulo()
                 ) 
@@ -62,8 +62,7 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
     @Transactional(readOnly = true)
     public List<ArticulosEntity> findAllArticlesByDescription(String word) {
         try {
-            List<ArticulosEntity> articlesList = articuloDAO.findArticulesByDescription(word);
-            return articlesList;
+            return articuloDAO.findArticulesByDescription(word);
         } catch(Exception e) {
             throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
         }
