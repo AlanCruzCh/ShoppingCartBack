@@ -11,4 +11,12 @@ public class Exceptions {
         }
     }
     
+    public static class DataNotFound extends RuntimeException {
+        public DataNotFound(String message) {
+            super(message);
+        }
+        public DataNotFound(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
 }

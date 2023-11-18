@@ -1,12 +1,11 @@
 package com.microservice.shopping.cart.models.entitys;
 
-import java.sql.Blob;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -45,8 +44,9 @@ public class ArticulosEntity{
 	private Integer cantidad;
 
 	@NotNull
-	@Column(nullable = false)
-	private Blob fotografia;
+	@Lob
+	@Column(columnDefinition = "LONGBLOB", nullable = false)
+	private byte[] fotografia;
 
 	// * *********************************************************************************************************
 	// * Define the getters and setters methods
@@ -84,11 +84,11 @@ public class ArticulosEntity{
 		this.cantidad = cantidad;
 	}
 
-	public Blob getFotografia() {
+	public byte[] getFotografia() {
 		return fotografia;
 	}
 
-	public void setFotografia(Blob fotografia) {
+	public void setFotografia(byte[] fotografia) {
 		this.fotografia = fotografia;
 	}
 
@@ -100,7 +100,7 @@ public class ArticulosEntity{
 	}
 
 	public ArticulosEntity(@NotEmpty String description, @NotNull Float precio, @NotNull Integer cantidad,
-			@NotNull Blob fotografia) {
+			@NotNull byte[] fotografia) {
 		this.description = description;
 		this.precio = precio;
 		this.cantidad = cantidad;

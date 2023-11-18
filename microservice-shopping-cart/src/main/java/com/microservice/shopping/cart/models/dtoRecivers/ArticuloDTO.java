@@ -1,7 +1,5 @@
 package com.microservice.shopping.cart.models.dtoRecivers;
 
-import java.sql.Blob;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -29,7 +27,7 @@ public class ArticuloDTO {
 	private Integer cantidad;
 
 	@NotNull
-	private Blob fotografia;
+	private byte[] fotografia;
 
     public String getDescription() {
         return description;
@@ -43,10 +41,8 @@ public class ArticuloDTO {
         return cantidad;
     }
 
-    public Blob getFotografia() {
+    public byte[] getFotografia() {
         return fotografia;
     }
-
-    
     
 }

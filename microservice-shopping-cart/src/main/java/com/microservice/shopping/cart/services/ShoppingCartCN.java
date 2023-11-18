@@ -1,11 +1,9 @@
 package com.microservice.shopping.cart.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
-import com.microservice.shopping.cart.models.dtoRecivers.CarritoCompraDTO;
 import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
-import com.microservice.shopping.cart.models.entitys.CarritoCompraEntity;
 
 public interface ShoppingCartCN {
     
@@ -17,7 +15,7 @@ public interface ShoppingCartCN {
 
     public ArticulosEntity saveArticle(ArticuloDTO dataJson);
 
-    public CarritoCompraEntity saveShoppingCart(CarritoCompraDTO dataJson);
+    //public CarritoCompraEntity saveShoppingCart(CarritoCompraDTO dataJson);
 
     
     /*
@@ -26,7 +24,7 @@ public interface ShoppingCartCN {
 	 * *****************************************************************************
 	 */
 
-    public List<ArticulosEntity> findAllArticlesByDescription(String word);
+    public Page<ArticulosEntity> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina);
 
 
 

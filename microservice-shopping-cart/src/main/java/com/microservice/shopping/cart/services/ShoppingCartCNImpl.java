@@ -3,14 +3,18 @@ package com.microservice.shopping.cart.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
+import com.microservice.shopping.cart.exceptions.Exceptions.DataNotFound;
 import com.microservice.shopping.cart.exceptions.Exceptions.DatabaseAccessException;
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
-import com.microservice.shopping.cart.models.dtoRecivers.CarritoCompraDTO;
 import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
-import com.microservice.shopping.cart.models.entitys.CarritoCompraEntity;
 import com.microservice.shopping.cart.models.repositorys.ArticulosDAO;
 import com.microservice.shopping.cart.models.repositorys.CarritoCompraDAO;
 
@@ -42,7 +46,7 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
         }
     }
 
-    @Override
+    /*@Override
     @Transactional
     public CarritoCompraEntity saveShoppingCart(CarritoCompraDTO dataJson) {
         try {
@@ -56,15 +60,24 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
         } catch(Exception e) {
             throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
         }
-    }
+    }*/
 
     @Override
     @Transactional(readOnly = true)
-    public List<ArticulosEntity> findAllArticlesByDescription(String word) {
+    public Page<ArticulosEntity> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina) {
         try {
-            return articuloDAO.findArticulesByDescription(word);
-        } catch(Exception e) {
-            throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
+            Pageable pageable = PageRequest.of(numPagina, tamPagina);
+            List<ArticulosEntity> articulos = articuloDAO.findArticulesByDescription(word);
+            if (articulos.isEmpty()) {
+                throw new DataNotFound("No se han encontrado articulos con la descripcion: " + word);
+            }
+            int startIndex = (int) pageable.getOffset();
+            int endIndex = Math.min((startIndex + pageable.getPageSize()), articulos.size());
+            List<ArticulosEntity> subLista = articulos.subList(startIndex, endIndex);
+            Page<ArticulosEntity> page = new PageImpl<>(subLista, pageable, articulos.size());
+            return page;
+        } catch (DataAccessException e) {
+            throw new DatabaseAccessException("Error al conectarse a la base de datos", e);
         }
     }
 
