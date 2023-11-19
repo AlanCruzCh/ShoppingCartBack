@@ -27,7 +27,7 @@ public class ArticuloDTO {
 	private Integer cantidad;
 
 	@NotNull
-	private byte[] fotografia;
+	private String fotografia;
 
     public String getDescription() {
         return description;
@@ -41,7 +41,7 @@ public class ArticuloDTO {
         return cantidad;
     }
 
-    public byte[] getFotografia() {
+    public String getFotografia() {
         return fotografia;
     }
     

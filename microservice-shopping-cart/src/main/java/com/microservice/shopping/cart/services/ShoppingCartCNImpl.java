@@ -1,5 +1,6 @@
 package com.microservice.shopping.cart.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,11 +37,11 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
                 dataJson.getDescription(), 
                 dataJson.getPrecio(), 
                 dataJson.getCantidad(), 
-                dataJson.getFotografia()
+                dataJson.getFotografia().getBytes()
                 ) 
             );
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("No se ha proporcionado la infromacion necesaria para registra un articulo");
+            throw new IllegalArgumentException("No se ha proporcionado la infromacion necesaria para registrar un articulo");
         } catch(Exception e) {
             throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
         }
@@ -66,8 +67,13 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
     @Transactional(readOnly = true)
     public Page<ArticulosEntity> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina) {
         try {
+            List<ArticulosEntity> articulos = new ArrayList<>();
             Pageable pageable = PageRequest.of(numPagina, tamPagina);
-            List<ArticulosEntity> articulos = articuloDAO.findArticulesByDescription(word);
+            if (word.equals("''")) {
+                articulos = (List<ArticulosEntity>) articuloDAO.findAll();
+            } else {
+                articulos = articuloDAO.findArticulesByDescription(word);
+            }
             if (articulos.isEmpty()) {
                 throw new DataNotFound("No se han encontrado articulos con la descripcion: " + word);
             }
