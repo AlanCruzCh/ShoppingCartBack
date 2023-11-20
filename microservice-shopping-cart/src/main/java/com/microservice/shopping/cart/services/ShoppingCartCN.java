@@ -3,6 +3,7 @@ package com.microservice.shopping.cart.services;
 import org.springframework.data.domain.Page;
 
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
+import com.microservice.shopping.cart.models.dtoResponses.ShowArticulosDto;
 import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
 
 public interface ShoppingCartCN {
@@ -24,7 +25,7 @@ public interface ShoppingCartCN {
 	 * *****************************************************************************
 	 */
 
-    public Page<ArticulosEntity> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina);
+    public Page<ShowArticulosDto> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina);
 
 
 

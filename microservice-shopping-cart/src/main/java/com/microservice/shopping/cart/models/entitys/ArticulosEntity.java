@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -43,10 +42,9 @@ public class ArticulosEntity{
 	@Column(nullable = false)
 	private Integer cantidad;
 
-	@NotNull
-	@Lob
-	@Column(columnDefinition = "LONGBLOB", nullable = false)
-	private byte[] fotografia;
+	@NotEmpty
+	@Column(length = 1000, nullable = false)
+	private String fotografia;
 
 	// * *********************************************************************************************************
 	// * Define the getters and setters methods
@@ -84,11 +82,11 @@ public class ArticulosEntity{
 		this.cantidad = cantidad;
 	}
 
-	public byte[] getFotografia() {
+	public String getFotografia() {
 		return fotografia;
 	}
 
-	public void setFotografia(byte[] fotografia) {
+	public void setFotografia(String fotografia) {
 		this.fotografia = fotografia;
 	}
 
@@ -100,7 +98,7 @@ public class ArticulosEntity{
 	}
 
 	public ArticulosEntity(@NotEmpty String description, @NotNull Float precio, @NotNull Integer cantidad,
-			@NotNull byte[] fotografia) {
+			@NotEmpty String fotografia) {
 		this.description = description;
 		this.precio = precio;
 		this.cantidad = cantidad;

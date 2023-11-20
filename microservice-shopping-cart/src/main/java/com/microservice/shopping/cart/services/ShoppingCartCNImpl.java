@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.microservice.shopping.cart.exceptions.Exceptions.DataNotFound;
 import com.microservice.shopping.cart.exceptions.Exceptions.DatabaseAccessException;
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
+import com.microservice.shopping.cart.models.dtoResponses.ShowArticulosDto;
 import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
 import com.microservice.shopping.cart.models.repositorys.ArticulosDAO;
 import com.microservice.shopping.cart.models.repositorys.CarritoCompraDAO;
@@ -37,7 +38,7 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
                 dataJson.getDescription(), 
                 dataJson.getPrecio(), 
                 dataJson.getCantidad(), 
-                dataJson.getFotografia().getBytes()
+                dataJson.getFotografia()
                 ) 
             );
         } catch (IllegalArgumentException e) {
@@ -65,7 +66,7 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
 
     @Override
     @Transactional(readOnly = true)
-    public Page<ArticulosEntity> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina) {
+    public Page<ShowArticulosDto> findAllArticlesByDescription(String word, Integer numPagina, Integer tamPagina) {
         try {
             List<ArticulosEntity> articulos = new ArrayList<>();
             Pageable pageable = PageRequest.of(numPagina, tamPagina);
@@ -80,7 +81,16 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
             int startIndex = (int) pageable.getOffset();
             int endIndex = Math.min((startIndex + pageable.getPageSize()), articulos.size());
             List<ArticulosEntity> subLista = articulos.subList(startIndex, endIndex);
-            Page<ArticulosEntity> page = new PageImpl<>(subLista, pageable, articulos.size());
+            List<ShowArticulosDto> showArticules = new ArrayList<>();
+            for (ArticulosEntity articulosEntity : subLista) {
+                showArticules.add(new ShowArticulosDto(
+                    articulosEntity.getIdArticulo(),
+                    articulosEntity.getDescription(), 
+                    articulosEntity.getPrecio(), 
+                    articulosEntity.getFotografia())
+                );
+            }
+            Page<ShowArticulosDto> page = new PageImpl<>(showArticules, pageable, articulos.size());
             return page;
         } catch (DataAccessException e) {
             throw new DatabaseAccessException("Error al conectarse a la base de datos", e);
