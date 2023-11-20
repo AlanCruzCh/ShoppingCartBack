@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS `articulos` (
     `description` VARCHAR(1000) NOT NULL,
     `precio` FLOAT NOT NULL,
     `cantidad` INT NOT NULL,
-    `fotografia` LONGBLOB NOT NULL,
+    `fotografia` VARCHAR(1000) NOT NULL,
     PRIMARY KEY(`id_articulo`)
 );
 
