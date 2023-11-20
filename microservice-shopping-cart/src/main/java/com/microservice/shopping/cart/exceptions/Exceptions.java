@@ -19,4 +19,13 @@ public class Exceptions {
             super(message, cause);
         }
     }
+
+    public static class MostProductException extends RuntimeException {
+        public MostProductException(String message) {
+            super(message);
+        }
+        public MostProductException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
 }
