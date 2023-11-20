@@ -202,14 +202,14 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
             if (dataJson.getOperacion().equals("Añadir")) {
                 newCantidadCarrito = carrito.getCantidad() + dataJson.getCantidad();
                 if (newCantidadCarrito > articulo.getCantidad()) {
-                    throw new MostProductException("El articulo seleccionado no puede tener una cantidad mayor a la registrada, total de articulos disponibles " + articulo.getCantidad());
+                    throw new MostProductException("El articulo seleccionado no puede tener una cantidad mayor a la registrada, total de articulos  " + articulo.getCantidad());
                 }
                 newCantidadArticulo = articulo.getCantidad() - dataJson.getCantidad();
                 
             }
             if (dataJson.getOperacion().equals("Reducir")) {
                 newCantidadCarrito = carrito.getCantidad() - dataJson.getCantidad();
-                if (newCantidadCarrito >= 0) {
+                if (newCantidadCarrito <= 0) {
                     throw new MostProductException("El articulo seleccionado no puede tener una cantidad menor a 0, verifiquelo por favor");
                 }
                 newCantidadArticulo = articulo.getCantidad() + dataJson.getCantidad();
