@@ -16,6 +16,7 @@ import com.microservice.shopping.cart.exceptions.Exceptions.DataNotFound;
 import com.microservice.shopping.cart.exceptions.Exceptions.DatabaseAccessException;
 import com.microservice.shopping.cart.exceptions.Exceptions.MostProductException;
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
+import com.microservice.shopping.cart.models.dtoRecivers.CarritoArticuloUpdateDto;
 import com.microservice.shopping.cart.models.dtoRecivers.CarritoCompraDTO;
 import com.microservice.shopping.cart.models.dtoResponses.ArticuloCarritoDto;
 import com.microservice.shopping.cart.models.dtoResponses.CarritoDto;
@@ -157,14 +158,70 @@ public class ShoppingCartCNImpl implements ShoppingCartCN{
 
     @Override
     @Transactional
-    public void deleteShoppingCart() {
+    public String deleteShoppingCart() {
         try {
+            List<CarritoCompraEntity> carrito = (List<CarritoCompraEntity>) carritoCompraDAO.findAll();
+            if (carrito.isEmpty()) {
+                throw new DataNotFound("No hay articulos en el carrito");
+            }
+            for (CarritoCompraEntity carritoCompraEntity : carrito) {
+                ArticulosEntity articulo = articuloDAO.findById(carritoCompraEntity.getIdArticulo()).get();
+                articulo.setCantidad(articulo.getCantidad() + carritoCompraEntity.getCantidad());
+                articuloDAO.save(articulo);
+            }
             carritoCompraDAO.deleteAll();
+            return "Se ha eliminado el carrito con exito";
         } catch(DataAccessException e) {
             throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
         }
     }
 
-    
+    @Override
+    @Transactional
+    public String deleteArticuloCarrito(Integer idArticulo) {
+        try {
+            CarritoCompraEntity carrito = carritoCompraDAO.findById(idArticulo).get();
+            ArticulosEntity articulo = articuloDAO.findById(carrito.getIdArticulo()).get();
+            articulo.setCantidad(articulo.getCantidad() + carrito.getCantidad());
+            articuloDAO.save(articulo);
+            carritoCompraDAO.deleteById(carrito.getId());
+            return "Se ha eliminado el articulo del carrito con exito";
+        } catch(DataAccessException e) {
+            throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
+        }
+    }
+
+    @Override
+    @Transactional
+    public String updateArticuloCarrito(CarritoArticuloUpdateDto dataJson) {
+        try {
+            CarritoCompraEntity carrito = carritoCompraDAO.findById(dataJson.getIdCarrito()).get();
+            ArticulosEntity articulo = articuloDAO.findById(dataJson.getIdArticulo()).get();
+            Integer newCantidadCarrito = 0;
+            Integer newCantidadArticulo = 0;
+            if (dataJson.getOperacion().equals("Añadir")) {
+                newCantidadCarrito = carrito.getCantidad() + dataJson.getCantidad();
+                if (newCantidadCarrito > articulo.getCantidad()) {
+                    throw new MostProductException("El articulo seleccionado no puede tener una cantidad mayor a la registrada, total de articulos disponibles " + articulo.getCantidad());
+                }
+                newCantidadArticulo = articulo.getCantidad() - dataJson.getCantidad();
+                
+            }
+            if (dataJson.getOperacion().equals("Reducir")) {
+                newCantidadCarrito = carrito.getCantidad() - dataJson.getCantidad();
+                if (newCantidadCarrito >= 0) {
+                    throw new MostProductException("El articulo seleccionado no puede tener una cantidad menor a 0, verifiquelo por favor");
+                }
+                newCantidadArticulo = articulo.getCantidad() + dataJson.getCantidad();
+            }
+            carrito.setCantidad(newCantidadCarrito);
+            carritoCompraDAO.save(carrito);
+            articulo.setCantidad(newCantidadArticulo);
+            articuloDAO.save(articulo);
+            return "Se ha actualizado con exito el articulo en el carrito";
+        } catch(DataAccessException e) {
+            throw new DatabaseAccessException("Se ha producido un error al conectarse a la base de datos");
+        }
+    }    
     
 }

@@ -3,6 +3,7 @@ package com.microservice.shopping.cart.services;
 import org.springframework.data.domain.Page;
 
 import com.microservice.shopping.cart.models.dtoRecivers.ArticuloDTO;
+import com.microservice.shopping.cart.models.dtoRecivers.CarritoArticuloUpdateDto;
 import com.microservice.shopping.cart.models.dtoRecivers.CarritoCompraDTO;
 import com.microservice.shopping.cart.models.dtoResponses.CarritoDto;
 import com.microservice.shopping.cart.models.dtoResponses.ShowArticulosDto;
@@ -38,12 +39,16 @@ public interface ShoppingCartCN {
 	 * *****************************************************************************
 	 */
 
+    public String updateArticuloCarrito(CarritoArticuloUpdateDto dataJson);
+
     /*
      * *****************************************************************************
      * Methods to delete information
      * *****************************************************************************
      */
 
-    public void deleteShoppingCart();
+    public String deleteShoppingCart();
+
+    public String deleteArticuloCarrito(Integer idArticulo);
 
 }
