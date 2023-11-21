@@ -24,7 +24,7 @@ import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
 import com.microservice.shopping.cart.services.ShoppingCartCN;
 
 @RestController
-@CrossOrigin(value = "http://localhost:4200")
+@CrossOrigin(value = "http://172.174.238.84:8080")
 public class ShoppingCartCC {
 
     @Autowired
@@ -117,5 +117,10 @@ public class ShoppingCartCC {
         } catch (DatabaseAccessException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/health")
+    public String healthCheck() {
+        return "Microservicio en línea";
     }
 }
