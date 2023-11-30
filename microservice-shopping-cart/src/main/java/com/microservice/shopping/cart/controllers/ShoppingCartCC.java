@@ -24,7 +24,7 @@ import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
 import com.microservice.shopping.cart.services.ShoppingCartCN;
 
 @RestController
-@CrossOrigin(value = "http://172.174.238.84:8080")
+@CrossOrigin(value = "http://localhost:4200")
 public class ShoppingCartCC {
 
     @Autowired
