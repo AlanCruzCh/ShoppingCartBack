@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.microservice.shopping.cart.exceptions.Exceptions.DataNotFound;
@@ -24,7 +25,8 @@ import com.microservice.shopping.cart.models.entitys.ArticulosEntity;
 import com.microservice.shopping.cart.services.ShoppingCartCN;
 
 @RestController
-@CrossOrigin(value = "http://localhost:4200")
+@CrossOrigin(value = "http://172.174.237.200:8080")
+@RequestMapping("/api")
 public class ShoppingCartCC {
 
     @Autowired

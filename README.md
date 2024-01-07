@@ -5,3 +5,14 @@ This project was genetaed with [Spring Initializr](https://start.spring.io/) ver
 ## Description 
 
 Microservices in charge of processing the back for the shopping cart
+
+## Deployment in Production
+
+### Comando para crear la imagen de la aplicacion
+
+docker build -t mcs-shopping-cart-image .
+
+
+### Comando para levantar la aplicacion web en el contenedor de docker
+
+docker run -d --name MICROSERVICE-SHOPPING-CART -e URL_DB=database-shopping-cart -e USER_DB=Alan -e PASSWORD_DB=contrasea-del-usuario-Alan --network=SHOPPING-CART-NETWORK mcs-shopping-cart-image
