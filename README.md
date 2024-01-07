@@ -15,4 +15,4 @@ docker build -t mcs-shopping-cart-image .
 
 ### Comando para levantar la aplicacion web en el contenedor de docker
 
-docker run -d --name MICROSERVICE-SHOPPING-CART -e URL_DB=database-shopping-cart -e USER_DB=Alan -e PASSWORD_DB=contrasea-del-usuario-Alan --network=SHOPPING-CART-NETWORK mcs-shopping-cart-image
+docker run -d --name MICROSERVICE-SHOPPING-CART -p 8500:8500 -e URL_DB=database-shopping-cart -e USER_DB=Alan -e PASSWORD_DB=contrasea-del-usuario-Alan --network=SHOPPING-CART-NETWORK mcs-shopping-cart-image
